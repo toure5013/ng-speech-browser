@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "voice-ng"
+    }
+  },
+  "defaultProject": "voice-ng",
+  "cli": {
+    "analytics": false
+  }
 }

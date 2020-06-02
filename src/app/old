@@ -18,8 +18,7 @@ interface IWindow extends Window {
 export class AppComponent {
   public title: string;
   public recordState: string = "play";
-  public recordStoped = true;
-
+  public recordStoped: boolean = true; //permit to  toggle choise  start and stop
   constructor(
     private injector: Injector,
     private state: TransferState,
@@ -37,19 +36,19 @@ export class AppComponent {
   public voiceSearch() {
 
     if ('webkitSpeechRecognition' in window) {
-          //make toggle choise here to start and stop
-      const recognition = new webkitSpeechRecognition() || new SpeechRecognition() ;
-    
+      const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimresults = false;
+      recognition.lang = 'en-US';
 
+
+      //-****************************Check if the record begin or not********************************
       if (this.recordStoped) {
-          //begin the speech
-          recognition.continuous = true;
-          recognition.interimresults = false;
-          recognition.lang = 'en-US';
-          recognition.start();
-          this.recordStoped = false;
-          this.recordState = 'pause';
-      }else {
+        recognition.start();
+        this.recordStoped = false;
+        this.recordState = 'pause';
+      }
+      else {
         //stop the speech
         recognition.stop();
         this.recordStoped = true;
@@ -69,13 +68,11 @@ export class AppComponent {
       recognition.onend = function () {
         console.log('Speech recognition service disconnected');
         recognition.stop();
-        this.recordState = 'play';
       }
 
       recognition.onerror = function (event) {
         console.log('Speech recognition error detected: ' + event.error);
         recognition.stop();
-        this.recordState = 'play';
       }
 
 
@@ -84,7 +81,7 @@ export class AppComponent {
         console.info(textSay);
         console.info(e);
         recognition.stop();
-        this.recordState = 'play';
+
         //---------- call the backend here ---------
         //when getting the result transform to speech
       }

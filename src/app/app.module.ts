@@ -1,5 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule,BrowserTransferStateModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,7 +12,9 @@ import { AppComponent } from './app.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserTransferStateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
